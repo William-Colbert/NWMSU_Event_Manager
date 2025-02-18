@@ -1,23 +1,24 @@
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+First type this in command line: npm install firebase
+then paste the following:
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyC9K8FQtL8ymkN7PeyBTh-WgLOiUZ3QXNs",
-    authDomain: "nwmsueventmanager.firebaseapp.com",
-    projectId: "nwmsueventmanager",
-    storageBucket: "nwmsueventmanager.firebasestorage.app",
-    messagingSenderId: "1045194699157",
-    appId: "1:1045194699157:web:a7fc555c80d8af6baa869c",
-    measurementId: "G-63BP42D3QM"
-  };
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDfA1u8dD8UnBStomM5vRNupK4H456IW48",
+  authDomain: "nwmsu-event-manager.firebaseapp.com",
+  projectId: "nwmsu-event-manager",
+  storageBucket: "nwmsu-event-manager.firebasestorage.app",
+  messagingSenderId: "933816110403",
+  appId: "1:933816110403:web:5b2cc4a9a3259f94dc73f6",
+  measurementId: "G-ZVF490QDTD"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
