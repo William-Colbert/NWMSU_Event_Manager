@@ -17,6 +17,11 @@ h1 {
     border-color: #0f521a;
     color: #b2ff91;
   }
+  .item:hover{
+    background-color: #b2ff91;
+    color: #0f521a;
+    border-color: #0f521a;
+  }
   
   .text-center{
     text-align: center;
@@ -26,5 +31,10 @@ h1 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .formPage{
+    background-color: #0b3f14;
+    color: #d3ffc1;
   }
   

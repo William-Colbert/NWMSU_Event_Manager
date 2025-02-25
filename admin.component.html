@@ -14,6 +14,14 @@
     left: 90%;
     margin: 5px;
     }
+    .custom-primary:hover {
+    background-color: #d7f3cc;
+    border-color: #b2ff91;
+    color: #0f521a;
+    position: relative;
+    left: 90%;
+    margin: 5px;
+    }
     table.custom-table{
       width: 100%; 
       display: block; 
@@ -303,19 +311,28 @@
           <button class="item">View All Events</button>
         </div>
         <div>
-          <button class="item">Create Event</button>
+          <button class="item" onclick="open_create()">Create Event</button>
         </div>
         <div>
-          <button class="item">Edit Event</button>
+          <button class="item" onclick="open_edit()">Edit Event</button>
         </div>
         <div>
-          <button class="item">Delete Event</button>
+          <button class="item" onclick="open_delete()">Delete Event</button>
         </div>
       </div>
     </div>
 </app-admin>
 <script>
-  
+  function open_create() {
+        window.open("file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/create.html")
+    }
+  function open_edit() {
+        window.open("file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/edit.html")
+    }
+  function open_delete() {
+        window.open("file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/delete.html")
+    }
+
 </script>
 </body>
 </html>
