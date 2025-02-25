@@ -1,0 +1,40 @@
+h1 {
+    color:blue;
+}
+#topBar {
+    background-color: green;
+    width: 100%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 100%;
+    width: 10ch;
+  }
+  .item{
+    background-color: #0f521a;
+    border-color: #0f521a;
+    color: #b2ff91;
+  }
+  .item:hover{
+    background-color: #b2ff91;
+    color: #0f521a;
+    border-color: #0f521a;
+  }
+  
+  .text-center{
+    text-align: center;
+  }
+  .truncate-cell {
+    max-width: 60px; /* feel free to include any other value */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .formPage{
+    background-color: #0b3f14;
+    color: #d3ffc1;
+  }
+  
