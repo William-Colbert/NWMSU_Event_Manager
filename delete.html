@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>MyAngularApp</title>
+  <title>Delete</title>
   <link rel="stylesheet" href="admin.component.css">
  <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
   <style>
@@ -13,14 +13,65 @@
 </head>
 <body class="formPage">
   <h2>Delete Event</h2>
-  <form>
+  <form id="eventForm">
     <label for="idNum">Enter Event ID:</label>
     <input type="number" id="idNum" name="idNum">
     <br>
-    <input type="submit" onclick="return confirm('Are you sure? This Action Cannot be Undone')">
+    <input type="submit" onclick="deleteEvent()">
   </form>
   <button onclick="location.href='file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/admin.component.html';">Return</button>
 </body>
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getFirestore, collection, query, where, getDocs, deleteDoc, doc} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+  // Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCMqN-EAf2xqHDV53u_C5AVfNWUPbEkuLg",
+    authDomain: "event-manager-3fe09.firebaseapp.com",
+    projectId: "event-manager-3fe09",
+    storageBucket: "event-manager-3fe09.firebasestorage.app",
+    messagingSenderId: "597895565029",
+    appId: "1:597895565029:web:7f49d7de597384a4ed0e0c",
+    measurementId: "G-K92Q0Q3KK6"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig)
+  const db = getFirestore(app)
+  const eventsCollectionRef = collection(db, "events")
+
+  async function deleteEvent(event) {
+    event.preventDefault()
+
+    const eventId = document.getElementById("idNum").value
+    if(!eventId){
+      alert("Please enter a valid Event ID.")
+      return
+    }
+
+    try {
+      const q = query(eventsCollectionRef, where("ID", "==", Number(eventId)))
+      const querySnapshot = await getDocs(q)
+
+      if (querySnapshot.empty) {
+        alert("No event found with ID: " + eventId)
+        return
+      }
+
+      querySnapshot.forEach(async (docSnap) => {
+        await deleteDoc(doc(db, "events", docSnap.id))
+        console.log("Deleted event with Firestore ID: ", docSnap.id)
+        alert("Event deleted successfully!")
+      })
+
+    } catch (error) {
+      console.error("Error deleting event: ", error)
+      alert("Failed to delete event. Check console for details.")
+    }
+  }
+
+  document.getElementById("eventForm").addEventListener("submit", deleteEvent)
 </script>
+
 </html>

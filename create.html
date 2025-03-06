@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>MyAngularApp</title>
+  <title>Create</title>
   <link rel="stylesheet" href="admin.component.css">
  <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
   <style>
@@ -13,7 +13,7 @@
 </head>
 <body class="formPage">
   <h2>Create Event</h2>
-  <form>
+  <form id="eventForm">
     <label for="title">Title:</label>
     <input type="text" id="title" name="title">
     <br>
@@ -26,10 +26,71 @@
     <label for="desc">Description:</label>
     <input type="text" id="desc" name="desc">
     <br>
-    <input type="submit" onclick="return confirm('Are you sure? This Action Cannot be Undone')">
+    <input type="submit" onclick="addEvent()">
   </form>
   <button onclick="location.href='file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/admin.component.html';">Return</button>
 </body>
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+  // Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCMqN-EAf2xqHDV53u_C5AVfNWUPbEkuLg",
+    authDomain: "event-manager-3fe09.firebaseapp.com",
+    projectId: "event-manager-3fe09",
+    storageBucket: "event-manager-3fe09.firebasestorage.app",
+    messagingSenderId: "597895565029",
+    appId: "1:597895565029:web:7f49d7de597384a4ed0e0c",
+    measurementId: "G-K92Q0Q3KK6"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const eventsCollectionRef = collection(db, "events");
+
+  
+
+  async function addEvent(event) {
+    event.preventDefault(); 
+    let bool = true
+     
+    const querySnapshot = await getDocs(eventsCollectionRef)
+    let numOfEvents = querySnapshot.size
+  
+    while (bool) {
+      const q = query(eventsCollectionRef, where("ID", "==", numOfEvents));
+      const querySnap = await getDocs(q);
+
+      if (querySnap.empty) {
+        bool = false
+        break
+      }
+      numOfEvents += 1
+    }
+
+    const newEvent = {
+      ID: Number(numOfEvents),
+      Title: document.getElementById("title").value,
+      Date: document.getElementById("date").value,
+      Location: document.getElementById("loc").value,
+      Description: document.getElementById("desc").value,
+      StudentsAttending: 90
+    };
+
+    try {
+      const docRef = await addDoc(eventsCollectionRef, newEvent);
+      console.log("Document written with ID: ", docRef.id);
+      alert("Event successfully added!");
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      alert("Failed to add event. Check console for errors.");
+    }
+  }
+
+  // Attach the submit event to the form
+  document.getElementById("eventForm").addEventListener("submit", addEvent);
 </script>
+
 </html>
