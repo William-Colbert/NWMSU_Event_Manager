@@ -45,7 +45,7 @@
   <app-admin>
     
     <div id="topBar">
-      <button class="custom-primary" style="left: 0%"> Back to Home</button>
+      <button class="custom-primary" style="left: 0%" onclick="openHome()"> Back to Home</button>
       <button class="custom-primary">Sign Out</button>
     </div>
     <div class="text-center">
@@ -68,6 +68,11 @@
       </table>
     </div>
 </app-admin>
+<script>
+    function openHome(){
+    window.open("file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/index.html")
+    }
+</script>
 <script type="module">
   
   // Import the functions you need from the SDKs you need
