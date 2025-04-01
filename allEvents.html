@@ -11,7 +11,7 @@
     border-color: #b2ff91;
     color: #0f521a;
     position: relative;
-    left: 90%;
+    left: 87%;
     margin: 5px;
     }
     .custom-primary:hover {
@@ -43,11 +43,13 @@
 </head>
 <body>
   <app-admin>
+    
     <div id="topBar">
+      <button class="custom-primary" style="left: 0%"> Back to Home</button>
       <button class="custom-primary">Sign Out</button>
     </div>
     <div class="text-center">
-      <h3>*Admin Name* Event List</h3>
+      <h3>Events</h3>
     </div>
     <div class="text-center">
       <table id="tab" class="custom-table";>
@@ -65,34 +67,7 @@
         </tbody>
       </table>
     </div>
-    <div>
-      <div class="container">
-        <div>
-          <button class="item">View All Events</button>
-        </div>
-        <div>
-          <button class="item" onclick="open_create()">Create Event</button>
-        </div>
-        <div>
-          <button class="item" onclick="open_edit()">Edit Event</button>
-        </div>
-        <div>
-          <button class="item" onclick="open_delete()">Delete Event</button>
-        </div>
-      </div>
-    </div>
 </app-admin>
-<script>
-function open_create() {
-        window.open("file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/create.html")
-    }
-  function open_edit() {
-        window.open("file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/edit.html")
-    }
-  function open_delete() {
-        window.open("file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/delete.html")
-    }
-</script>
 <script type="module">
   
   // Import the functions you need from the SDKs you need
@@ -129,7 +104,7 @@ async function loadEvents(){
     const event = doc.data();
     const row = document.createElement("tr");
 
-    row.innerHTML = `<td>${event.ID}</td> <td>${event.Title}</td> <td>${event.Date}</td> <td>${event.Location}</td> <td>${event.Description}</td> <td>${event.StudentsAttending}</td>`;
+    row.innerHTML = `<td>${event.ID}</td> <td>${event.Title}</td> <td>${event.Date}</td> <td>${event.Location}</td> <td>${event.Description}</td> <td>${event.StudentsAttending}</td><td><button type="submit" id=${event.ID}>Add Event</button></td>`;
 
       table.appendChild(row);
   });
