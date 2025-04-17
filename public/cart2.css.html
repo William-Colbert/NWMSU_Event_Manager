@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Profile </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-b from-green-900 to-green-800 text-white shadow-md">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <div>
+          <h1 class="text-xl font-bold leading-tight">NORTHWEST MISSOURI STATE UNIVERSITY</h1>
+        </div>
+      </div>
+      <div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Profile Content -->
+  <main class="max-w-4xl mx-auto p-6 mt-6 bg-white border border-gray-300 rounded shadow-sm">
+    <div class="flex items-center space-x-5">
+      <img src="https://via.placeholder.com/80" alt="Profile" class="rounded-full w-20 h-20 border border-gray-400" />
+      <div>
+        <h2 id="student-name" class="text-2xl font-bold text-green-900">Jane Student</h2>
+        <p id="student-email" class="text-sm text-gray-600">jane@student.edu</p>
+      </div>
+    </div>
+
+    <h3 class="mt-8 mb-4 text-xl font-semibold text-green-800 border-b pb-2">Registered Events</h3>
+    <div id="events-container" class="space-y-4">
+      <!-- Event cards will be inserted here -->
+    </div>
+  </main>
+
+  <footer class="text-sm text-center text-gray-600 mt-10 mb-4">
+     2025 NWMSU Event Manager
+  </footer>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDfA1u8dD8UnBStomM5vRNupK4H456IW48",
+      authDomain: "nwmsu-event-manager.firebaseapp.com",
+      projectId: "nwmsu-event-manager",
+      storageBucket: "nwmsu-event-manager.firebasestorage.app",
+      messagingSenderId: "933816110403",
+      appId: "1:933816110403:web:5b2cc4a9a3259f94dc73f6",
+      measurementId: "G-ZVF490QDTD"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const renderEvents = (events) => {
+      const container = document.getElementById("events-container");
+      container.innerHTML = "";
+
+      events.forEach(event => {
+        const card = document.createElement("div");
+        card.className = "p-4 bg-gray-100 border border-gray-300 rounded";
+        card.innerHTML = `
+          <h4 class="text-lg font-bold text-green-900">${event.Title}</h4>
+          <p class="text-sm text-gray-700">${event.Date} · ${event.Location}</p>
+          <p class="mt-1 text-sm">${event.Description}</p>
+          <p class="mt-1 text-xs text-gray-500">Students Attending: ${event.StudentsAttending}</p>
+        `;
+        container.appendChild(card);
+      });
+    };
+
+    const loadAllEvents = async () => {
+      const snapshot = await db.collection("events").get();
+      const events = snapshot.docs.map(doc => doc.data());
+      renderEvents(events);
+    };
+
+    loadAllEvents();
+  </script>
+
+</body>
+</html>
