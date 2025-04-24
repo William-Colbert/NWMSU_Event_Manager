@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Admin Page</title>
+  <link rel="stylesheet" href="admin.component.css">
+ <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+  <style>
+    .custom-primary {
+    background-color: #b2ff91;
+    border-color: #b2ff91;
+    color: #0f521a;
+    position: relative;
+    left: 90%;
+    margin: 5px;
+    }
+    .custom-primary:hover {
+    background-color: #d7f3cc;
+    border-color: #b2ff91;
+    color: #0f521a;
+    position: relative;
+    left: 90%;
+    margin: 5px;
+    }
+    table.custom-table{
+      width: 100%; 
+      display: block; 
+      border: 2px solid black;
+    }
+    
+    table.custom-table thead tr th{
+      padding-right: 200px;
+
+    }
+
+    table.custom-table tbody tr td{
+      padding-right: 115px;
+    }
+  </style>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-admin>
+    <div id="topBar">
+      <button class="custom-primary" onclick="window.signOutUser()">Sign Out</button>
+    </div>
+    <div class="text-center">
+      <h3>*Admin Name* Event List</h3>
+    </div>
+    <div class="text-center">
+      <table id="tab" class="custom-table";>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th># of Students Attending</th>
+          </tr>
+        </thead>
+        <tbody style="height: 500px; display: block; overflow-y: auto; overflow-x: hidden;">
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="container">
+        <div>
+          <button class="item" onclick="open_allEvents()">View All Events</button>
+        </div>
+        <div>
+          <button class="item" onclick="open_create()">Create Event</button>
+        </div>
+        <div>
+          <button class="item" onclick="open_edit()">Edit Event</button>
+        </div>
+        <div>
+          <button class="item" onclick="open_delete()">Delete Event</button>
+        </div>
+      </div>
+    </div>
+</app-admin>
+<script>
+function open_create() {
+        window.open("file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/create.html")
+    }
+  function open_edit() {
+        window.open("file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/edit.html")
+    }
+  function open_delete() {
+        window.open("file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/delete.html")
+    }
+  function open_allEvents(){
+    window.open("file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/admin/allEvents.html")
+  }
+
+</script>
+<script type="module">
+  
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getFirestore, collection, query, where, getDocs, doc} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+  import {getAuth, signOut} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDfA1u8dD8UnBStomM5vRNupK4H456IW48",
+  authDomain: "nwmsu-event-manager.firebaseapp.com",
+  projectId: "nwmsu-event-manager",
+  storageBucket: "nwmsu-event-manager.firebasestorage.app",
+  messagingSenderId: "933816110403",
+  appId: "1:933816110403:web:5b2cc4a9a3259f94dc73f6",
+  measurementId: "G-ZVF490QDTD"
+}
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
+//const analytics = getAnalytics(app)
+const db = getFirestore(app)
+
+async function loadEvents(){
+  const eventsCollectionRef = collection(db, "events")
+
+  const table = document.querySelector("#tab tbody")
+  //table.innerHTML = "";
+  const elts = await getDocs(eventsCollectionRef)
+
+  elts.forEach((doc) => {
+    const event = doc.data();
+    const row = document.createElement("tr");
+
+    row.innerHTML = `<td>${event.ID}</td> <td>${event.Title}</td> <td>${event.Date}</td> <td>${event.Location}</td> <td>${event.Description}</td> <td>${event.StudentsAttending}</td>`;
+
+      table.appendChild(row);
+  });
+}
+
+window.addEventListener("load", loadEvents);
+
+const auth = getAuth();
+
+window.signOutUser = function(){
+  signOut(auth).then(() => {
+      // Sign-out successful.
+      console.log("Sign Out Successful")
+      window.open("file:///C:/Users/S544228/eventManagerWebsite/my-angular-app/src/login-page/app/login-page/login-page.component.html")
+    }).catch((error) => {
+      console.error("Error signing out: ", error)
+      alert("Sign-Out Failed")
+    });
+    
+  }
+</script>
+</body>
+</html>
