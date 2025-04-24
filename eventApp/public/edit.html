@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Edit</title>
+  <link rel="stylesheet" href="admin.component.css">
+ <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+  <style>
+  </style>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body class="formPage">
+  <h2>Edit Event</h2>
+  <form id="eventForm">
+    <label for="idNum">Enter Existing Event ID:</label>
+    <input type="number" id="idNum" name="idNum">
+    <br>
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title">
+    <br>
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date">
+    <br>
+    <label for="loc">Location:</label>
+    <input type="text" id="loc" name="loc">
+    <br>
+    <label for="desc">Description:</label>
+    <input type="text" id="desc" name="desc">
+    <br>
+    <input type="submit">
+  </form>
+  <button onclick="location.href='admin.html';">Return</button>
+</body>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getFirestore, doc, collection, addDoc, getDocs, getDoc, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+  // Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDfA1u8dD8UnBStomM5vRNupK4H456IW48",
+  authDomain: "nwmsu-event-manager.firebaseapp.com",
+  projectId: "nwmsu-event-manager",
+  storageBucket: "nwmsu-event-manager.firebasestorage.app",
+  messagingSenderId: "933816110403",
+  appId: "1:933816110403:web:5b2cc4a9a3259f94dc73f6",
+  measurementId: "G-ZVF490QDTD"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const eventsCollectionRef = collection(db, "events");
+
+  
+
+  async function editEvent(event) {
+    event.preventDefault()
+    const eventId = document.getElementById("idNum").value
+  if (!eventId) {
+    alert("Please enter a valid Event ID.")
+    return
+  }
+
+  /*
+  const eventRef = doc(db, "events", eventId)
+  const eventSnap = await getDoc(eventRef)
+  */
+  const q = query(eventsCollectionRef, where("ID", "==", Number(eventId)))
+      const querySnapshot = await getDocs(q)
+
+      if (querySnapshot.empty) {
+        alert("No event found with ID: " + eventId)
+        return
+      }
+/*
+  if (!eventSnap.exists()) {
+    alert("No event found with ID: " + eventId);
+    return
+  }
+*/
+const eventDoc = querySnapshot.docs[0]
+const eventRef = eventDoc.ref
+  const updatedEvent = {
+    Title: document.getElementById("title").value,
+    Date: document.getElementById("date").value,
+    Location: document.getElementById("loc").value,
+    Description: document.getElementById("desc").value
+  };
+
+  try {
+    await updateDoc(eventRef, updatedEvent);
+    console.log("Event updated successfully: ", eventId);
+    alert("Event updated successfully!");
+  } catch (error) {
+    console.error("Error updating event: ", error);
+    alert("Failed to update event. Check console for details.");
+  }
+}
+
+// Attach the edit function to the edit button
+document.getElementById("eventForm").addEventListener("submit", editEvent)
+</script>
+</html>

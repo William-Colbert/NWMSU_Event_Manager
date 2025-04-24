@@ -1,0 +1,37 @@
+<div class="navbar">
+  <img src="assets/logo.png" alt="Northwest Logo" class="logo">
+  <h1>{{ isSignUp ? 'Event Manager Sign Up' : 'Event Manager Login' }}</h1>
+</div>
+
+<div class="login-container">
+  <h2>{{ isSignUp ? 'Sign Up' : 'Login' }}</h2>
+  <form (ngSubmit)="onLogin($event)">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" [(ngModel)]="email" required />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" [(ngModel)]="password" required />
+    </div>
+
+    <!-- Role Selection (Visible only on Sign Up) -->
+    <div *ngIf="isSignUp" class="form-group">
+      <label for="role">Select Role</label>
+      <select id="role" name="role" [(ngModel)]="role" required>
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+    </div>
+
+    <button type="submit">{{ isSignUp ? 'Sign Up' : 'Login' }}</button>
+  </form>
+
+  <!-- Error Message Logic -->
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+
+  <!-- Toggle Sign-Up/Login -->
+  <p (click)="toggleSignUp()" class="toggle-signup">
+    {{ isSignUp ? 'Already have an account? Login' : 'Don\'t have an account? Sign up' }}
+  </p>
+</div>
