@@ -11,7 +11,7 @@
     border-color: #b2ff91;
     color: #0f521a;
     position: relative;
-    left: 90%;
+    left: 87%;
     margin: 5px;
     }
     .custom-primary:hover {
@@ -42,11 +42,14 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
+  <app-admin>
+    
     <div id="topBar">
-      <button class="custom-primary" onclick="window.signOutUser()">Sign Out</button>
+      <button class="custom-primary" style="left: 0%" onclick="openHome()"> Back to Home</button>
+      <button class="custom-primary">Sign Out</button>
     </div>
     <div class="text-center">
-      <h3>*Admin Name* Event List</h3>
+      <h3>Events</h3>
     </div>
     <div class="text-center">
       <table id="tab" class="custom-table";>
@@ -64,43 +67,17 @@
         </tbody>
       </table>
     </div>
-    <div>
-      <div class="container">
-        <div>
-          <button class="item" onclick="open_allEvents()">View All Events</button>
-        </div>
-        <div>
-          <button class="item" onclick="open_create()">Create Event</button>
-        </div>
-        <div>
-          <button class="item" onclick="open_edit()">Edit Event</button>
-        </div>
-        <div>
-          <button class="item" onclick="open_delete()">Delete Event</button>
-        </div>
-      </div>
-    </div>
+</app-admin>
 <script>
-function open_create() {
-        window.open('create.html')
+    function openHome(){
+    window.open('home.html')
     }
-  function open_edit() {
-        window.open('edit.html')
-    }
-  function open_delete() {
-        window.open('delete.html')
-    }
-  function open_allEvents(){
-        window.open('allEvents.html')
-  }
-
 </script>
 <script type="module">
   
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
   import { getFirestore, collection, query, where, getDocs, doc} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-  import {getAuth, signOut} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -132,27 +109,13 @@ async function loadEvents(){
     const event = doc.data();
     const row = document.createElement("tr");
 
-    row.innerHTML = `<td>${event.ID}</td> <td>${event.Title}</td> <td>${event.Date}</td> <td>${event.Location}</td> <td>${event.Description}</td> <td>${event.StudentsAttending}</td>`;
+    row.innerHTML = `<td>${event.ID}</td> <td>${event.Title}</td> <td>${event.Date}</td> <td>${event.Location}</td> <td>${event.Description}</td> <td>${event.StudentsAttending}</td><td><button type="submit" id=${event.ID}>Add Event</button></td>`;
 
       table.appendChild(row);
   });
 }
 
 window.addEventListener("load", loadEvents);
-
-const auth = getAuth();
-
-window.signOutUser = function(){
-  signOut(auth).then(() => {
-      // Sign-out successful.
-      console.log("Sign Out Successful")
-      window.location.href = 'index.html'
-    }).catch((error) => {
-      console.error("Error signing out: ", error)
-      alert("Sign-Out Failed")
-    });
-    
-  }
 </script>
 </body>
 </html>

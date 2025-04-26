@@ -50,9 +50,10 @@ export class LoginPageComponent {
 
           // Navigate based on role
           if (role === 'admin') {
-            window.open('admin.html')
+            window.location.href = 'admin.html'
             this.router.navigate(['/admin']); // Redirect admin users
           } else {
+            window.location.href = 'student.html'
             this.router.navigate(['/user']); // Redirect regular users
           }
         })
